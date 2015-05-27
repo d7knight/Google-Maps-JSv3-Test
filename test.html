@@ -24,7 +24,7 @@
             }
             var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-
+           var markerOptions;
 
                 var options = jQuery.extend({
                     scale: 2,
@@ -36,8 +36,7 @@
                     zIndex: 0
                 }, markerOptions);
                 var scale = options.scale;
-                var point = new google.maps.LatLng(45, 84;
-                var formattedGasPrice = formatGasPrice(gasPrice.price);
+                var point = new google.maps.LatLng(-25.363882,131.044922);
                 var info = jQuery('<div class="gas_price_info">' +
                         '<div class="gas_price">' +
                         '<p class="price">$' + 'test' + '</p>' +
@@ -54,31 +53,52 @@
                         '<p>Updated ' + 'test' + '</p>' +
                         '</div>');
 
-                var inDirections = jQuery('<span class="add-to-directions">In Directions</span>');
-                var addToDirectionsLink = createAddToDirectionsLink(gasPrice.price_id);
 
-                // Set up add/remove to/from directions links
-                jQuery(document).bind(EVENTS.add_price_to_directions, function (e) {
-                    if (e.priceId == gasPrice.price_id) {
-                        var old = jQuery(info).find('.add-to-directions');
-                        old.after(inDirections);
-                        old.detach(); // detach preserves event binding, unlike replaceWith
-                    }
-                });
-                jQuery(document).bind(EVENTS.remove_price_from_directions, function (e) {
-                    if (e.priceId == gasPrice.price_id) {
-                        var old = jQuery(info).find('.add-to-directions');
-                        old.after(addToDirectionsLink);
-                        old.detach();
-                    }
-                });
 
-                if (options.inDirections) {
-                    jQuery(info).find('p.action-links').append(inDirections);
-                } else {
-                    jQuery(info).find('p.action-links').append(addToDirectionsLink);
+            var MARKER_CONSTANTS = {
+                // Actual width is 2 pixels narrow when last numeral is a 1 in the price
+                // (for example, "$3.91")
+                bubbleWithIconAndText : {
+                    marker: {
+                        width: 89,
+                        urlBase: "http://chart.apis.google.com/chart?chst=d_bubble_icon_text_small&chld="
+                    },
+                    shadow: {
+                        width: 112,
+                        urlBase: "http://chart.apis.google.com/chart?chst=d_bubble_icon_text_small_shadow&chld="
+                    }
+                },
+                bubbleWithIconAndTextAndStar : {
+                    marker: {
+                        width: 95,
+                        urlBase: "http://chart.apis.google.com/chart?chst=d_bubble_icon_text_small&chld="
+                    },
+                    shadow: {
+                        width: 118,
+                        urlBase: "http://chart.apis.google.com/chart?chst=d_bubble_icon_text_small_shadow&chld="
+                    }
+                },
+                bubbleWithText : {
+                    marker: {
+                        width: 65,
+                        urlBase: "http://chart.apis.google.com/chart?chst=d_bubble_text_small&chld="
+                    },
+                    shadow: {
+                        width: 88,
+                        urlBase: "http://chart.apis.google.com/chart?chst=d_bubble_text_small_shadow&chld="
+                    }
+                },
+                bubbleWithTextAndStar : {
+                    marker: {
+                        width: 71,
+                        urlBase: "http://chart.apis.google.com/chart?chst=d_bubble_text_small&chld="
+                    },
+                    shadow: {
+                        width: 94,
+                        urlBase: "http://chart.apis.google.com/chart?chst=d_bubble_text_small_shadow&chld="
+                    }
                 }
-
+            };
                 var constants;
                 if (options.includeIcon) {
                     if (options.includeStar) {
@@ -101,11 +121,11 @@
                     markerImageUrl += "petrol|";
                     shadowImageUrl += "petrol|";
                 }
-                markerImageUrl += "bb|$" + formattedGasPrice;
+                markerImageUrl += "bb|$" + 77;
                 if (options.includeStar) markerImageUrl += "*";
                 markerImageUrl += "|" + options.fillColor;
                 markerImageUrl += "|" + options.textColor;
-                shadowImageUrl += "bb|$" + formattedGasPrice;
+                shadowImageUrl += "bb|$" + 77;
                 if (options.includeStar) shadowImageUrl += "*";
 
                 var image = new google.maps.MarkerImage(
